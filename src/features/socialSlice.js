@@ -18,20 +18,40 @@ export const getPosts = createAsyncThunk("post/getPosts", async (thunkAPI) => {
     }
   });
 
+  
+  export const postCreate = async (newPost) => {
+      try {
+          return await axios.post(url, newPost);
+      } catch (error) {
+          console.log(error)
+      }
+  };
+  export const postUpdate = async (id,updatePost) => {
+      try {
+          return await axios.patch(`${url}/${id}`, updatePost);
+      } catch (error) {
+          console.log(error)
+      }
+  };
+
 const status = createSlice({
     name:'post',
     initialState,
     reducers:{
-        setPosts:(state,action)=>{
-            state.posts = action.payload.posts
+        createPost:(state,action)=>{
+            postCreate(action.payload)
         },
-        setPost:(state,action)=>{
-            const newPost = state.payload.posts.map(post=>{
-                if(post._id===action.payload.post_id) return action.payload.post;
+        updatePost:(state,action)=>{
+            const newPost = state.posts.map(post=>{
+                if(post._id===action.payload._id) return action.payload;
                 return post;
             })
+            postUpdate(action.payload._id,action.payload)
             state.posts = newPost;
         },
+        setLike:(state)=>{
+          state.posts.likeCount+=1;
+        }
     },
         extraReducers: {
             [getPosts.pending]: (state) => {
@@ -47,6 +67,6 @@ const status = createSlice({
           },
 })
 
-export const {setPosts,setPost} = status.actions
+export const {updatePost,createPost,setLike} = status.actions
 
 export default status.reducer

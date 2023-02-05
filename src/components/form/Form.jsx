@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import useStyles from "./style";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
-import {createPost} from '../../api'
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../features/socialSlice";
+import { useEffect } from "react";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setpostData] = useState({
     creator: "",
     title: "",
@@ -13,12 +15,31 @@ const Form = () => {
     selectedFile: "",
   });
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const post = useSelector((state) =>
+    currentId ? state.post.posts.find((p) => p._id === currentId) : null
+  );
+  useEffect(() => {
+    if (post) setpostData(post);
+  }, [post]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    createPost(postData)
+    if (currentId) 
+      dispatch(updatePost(postData));
+    else
+      dispatch(createPost(postData));
+    // clear()
   };
   const clear = () => {
-    setpostData({})
+    setCurrentId(null);
+    setpostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    })
   };
   return (
     <Paper className={classes.paper}>
@@ -74,9 +95,25 @@ const Form = () => {
             }
           />
         </div>
-        <Button className={classes.buttonSubmit} variant="contained" color='primary' size='large' type='submit' fullWidth>Submit</Button>
-        <Button  variant="contained" color='secondary' size='small' onClick={clear} fullWidth>clear</Button>
-
+        <Button
+          className={classes.buttonSubmit}
+          variant="contained"
+          color="primary"
+          size="large"
+          type="submit"
+          fullWidth
+        >
+          Submit
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={clear}
+          fullWidth
+        >
+          clear
+        </Button>
       </form>
     </Paper>
   );
