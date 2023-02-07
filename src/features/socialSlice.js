@@ -58,35 +58,6 @@ const status = createSlice({
     name:'post',
     initialState,
     reducers:{
-        // createPost:(state,action)=>{
-        //     postCreate(action.payload)
-        //     // state.posts.push(action.payload)
-        //     state.postCount=state.posts.length
-        // },
-        // updatePost:(state,action)=>{
-        //     const newPost = state.posts.map(post=>{
-        //         if(post._id===action.payload._id) return action.payload;
-        //         return post;
-        //     })
-        //     console.log(newPost)
-        //     postUpdate(action.payload._id,action.payload)
-        //     state.posts = newPost;
-        // },
-        // setLike:(state,action)=>{
-        //     const newPost = state.posts.map(post=>{
-        //       if(post._id===action.payload._id) return action.payload;
-        //       return post;
-        //   })
-        //   console.log(newPost)
-        //   postLike(action.payload._id)
-        //   state.posts = newPost;
-        // },
-        // deletPost:(state,{payload})=>{
-        //     const newPost=state.posts.filter((post)=>post._id!==payload)
-        //     postDelete(payload)
-        //     state.posts = newPost;
-        //     console.log('hello000')
-        // }
         
     },
         extraReducers:(builder) =>{
