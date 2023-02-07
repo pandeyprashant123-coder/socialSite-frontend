@@ -12,7 +12,7 @@ const url = "http://localhost:5000/posts";
 export const getPosts = createAsyncThunk("post/getPosts", async (thunkAPI) => {
     try {
       const response = await axios(url);
-      console.log(response.data)
+    //   console.log(response.data)
 
       return response.data;
     } catch (error) {
@@ -80,8 +80,8 @@ const status = createSlice({
                     if(post._id===action.payload._id) return action.payload;
                     return post;
                 })
-                console.log(updatedPost)
-                state.posts = updatePost;
+                // console.log(updatedPost)
+                state.posts = updatedPost;
             });
             builder.addCase(deletePost.fulfilled,(state,action)=>{
                 const afterDeleted=state.posts.filter((post)=>post._id!==action.payload)
@@ -93,7 +93,7 @@ const status = createSlice({
                   if(post._id===action.payload._id) return action.payload;
                   return post;
               })
-              console.log(newPost)
+            //   console.log(newPost)
               state.posts = newPost;
             });
           },
