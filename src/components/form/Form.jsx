@@ -11,7 +11,7 @@ const Form = ({ currentId, setCurrentId }) => {
     creator: "",
     title: "",
     message: "",
-    tags: "",
+    tags: [],
     selectedFile: "",
   });
   const classes = useStyles();
@@ -26,10 +26,10 @@ const Form = ({ currentId, setCurrentId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currentId) 
-      dispatch(updatePost(postData));
+      dispatch(updatePost(currentId,postData));
     else
       dispatch(createPost(postData));
-    // clear()
+    clear()
   };
   const clear = () => {
     setCurrentId(null);
@@ -91,7 +91,7 @@ const Form = ({ currentId, setCurrentId }) => {
             type="file"
             multiple={false}
             onDone={({ base64 }) =>
-              setpostData({ ...postData, setFile: base64 })
+              setpostData({ ...postData, selectedFile: base64 })
             }
           />
         </div>

@@ -12,10 +12,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import useStyles from "./style";
 import { useDispatch } from "react-redux";
+import { likePost,deletePost } from "../../../features/socialSlice";
 const Post = ({post,setCurrentId}) => {
-  // dispatch= useDispatch();
-  console.log(post)
+ const dispatch= useDispatch();
+  // console.log(post)
   const classes = useStyles();
+ 
   return (
     <Card className={classes.card}>
       <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>
@@ -33,15 +35,14 @@ const Post = ({post,setCurrentId}) => {
         <Typography className={classes.title} varient='h5' gutterBottom>{post.message}</Typography>
       </div>
       <CardContent className={classes.cardActions}>
-        <Button size='small' color='primary' onclick={()=>{}}>
+        <Button size='small' color='primary' onClick={()=>dispatch(likePost(post._id))}>
           <ThumbUpAltIcon fontSize='small'/>
           Like
           {post.likeCount}
         </Button>
-        <Button size='small' color='primary' onclick={()=>{}}>
+        <Button size='small' color='primary' onClick={()=>dispatch(deletePost(post._id))}>
           <DeleteIcon fontSize='small'/>
           Delete
-          {post.likeCount}
         </Button>
 
       </CardContent>

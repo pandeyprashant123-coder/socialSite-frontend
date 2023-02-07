@@ -7,7 +7,7 @@ import Post from './post/Post'
 const Posts = ({setCurrentId}) => {
   const classes = useStyles();
   const {isLoading,posts} = useSelector((state)=>state.post)
-  console.log(posts,'its me')
+  // console.log(posts,'its me')
   return (
     isLoading?<CircularProgress/>:(
     <Grid className={classes.container} container alignItems='stretch' spacing={3}>
