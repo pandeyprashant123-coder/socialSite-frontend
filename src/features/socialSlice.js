@@ -29,9 +29,10 @@ export const getPosts = createAsyncThunk("post/getPosts", async (thunkAPI) => {
           console.log(error)
       }
   })
-  export const updatePost =createAsyncThunk("post/updatePost",async (id,updatePost) => {
+  export const updatePost =createAsyncThunk("post/updatePost",async (updatedPost) => {
       try {
-          const response = await axios.patch(`${url}/${id}`, updatePost);
+          console.log(updatedPost,'ji')
+          const response = await axios.patch(`${url}/${updatedPost.currentId}`, updatedPost.postData);
           return response.data;
       } catch (error) {
           console.log(error)
@@ -80,13 +81,13 @@ const status = createSlice({
                     if(post._id===action.payload._id) return action.payload;
                     return post;
                 })
-                // console.log(updatedPost)
+                console.log(updatedPost)
                 state.posts = updatedPost;
             });
             builder.addCase(deletePost.fulfilled,(state,action)=>{
                 const afterDeleted=state.posts.filter((post)=>post._id!==action.payload)
                 state.posts = afterDeleted;
-                console.log(afterDeleted,action.payload,'hello000')
+                // console.log(afterDeleted,action.payload,'hello000')
             });
             builder.addCase(likePost.fulfilled,(state,action)=>{
                 const newPost = state.posts.map(post=>{
