@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState}from "react";
 import {
   Card,
   CardActions,
@@ -11,15 +11,22 @@ import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import useStyles from "./style";
-import { useDispatch } from "react-redux";
-import { likePost, deletePost } from "../../../features/socialSlice";
-const Post = ({ post, setCurrentId }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { likePost, deletePost ,updateIt} from "../../../features/socialSlice";
+import Form from "../../form/Form";
+const Post = ({ post}) => {
   const dispatch = useDispatch();
+  const [currentId,setCurrentId] = useState(null);
   // console.log(post)
+  const {updateBtn} = useSelector(state=>state.post)
   const classes = useStyles();
-
+  const update=()=>{
+    setCurrentId(post._id)
+    dispatch(updateIt())
+  }
   return (
     <Card className={classes.card}>
+      {updateBtn&&<Form currentId={currentId} setCurrentId={setCurrentId}/>}
       <CardMedia
         className={classes.media}
         image={post.selectedFile}
@@ -33,7 +40,7 @@ const Post = ({ post, setCurrentId }) => {
         <Button
           style={{ color: "white" }}
           size="small"
-          onClick={() => setCurrentId(post._id)}
+          onClick={update}
         >
           <MoreHorizIcon fontSize="default" />
         </Button>

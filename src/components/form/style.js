@@ -8,11 +8,18 @@ export default makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
+    position:'absolute',
+    zIndex:'2',
+    backgroundColor:'white',
+    right:'7rem'
   },
   form: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    width:'30vw',
+    
+    
   },
   fileInput: {
     width: '97%',
