@@ -1,19 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
+import API from '../api'
 const initialState = {
   posts: [],
   isLoading: true,
   postBtn: false,
   updateBtn: false,
 };
-const url = "http://localhost:5000/posts";
+
 
 export const getPosts = createAsyncThunk("post/getPosts", async (thunkAPI) => {
   try {
-    const response = await axios(url);
+    const response = await API.get("/posts");
     //   console.log(response.data)
-
     return response.data;
   } catch (error) {
     return thunkAPI.rejectWithValue("something went wrong");
@@ -23,8 +21,9 @@ export const getPosts = createAsyncThunk("post/getPosts", async (thunkAPI) => {
 export const createPost = createAsyncThunk(
   "post/createPost",
   async (newPost) => {
+    // console.log(newPost,'its me')
     try {
-      const response = await axios.post(url, newPost);
+      const response = await API.post("/posts", newPost);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -35,10 +34,10 @@ export const updatePost = createAsyncThunk(
   "post/updatePost",
   async (updatedPost) => {
     try {
-      console.log(updatedPost, "ji");
-      const response = await axios.patch(
-        `${url}/${updatedPost.currentId}`,
-        updatedPost.postData
+      // console.log(updatedPost, "ji");
+      const response = await API.patch(
+        `/posts/${updatedPost.currentId}`,
+        updatedPost.toupdateData
       );
       return response.data;
     } catch (error) {
@@ -48,7 +47,7 @@ export const updatePost = createAsyncThunk(
 );
 export const deletePost = createAsyncThunk("post/deletePost", async (id) => {
   try {
-    await axios.delete(`${url}/${id}`);
+    await API.delete(`/posts/${id}`);
     return id;
   } catch (error) {
     console.log(error);
@@ -56,7 +55,7 @@ export const deletePost = createAsyncThunk("post/deletePost", async (id) => {
 });
 export const likePost = createAsyncThunk("post/likePost", async (id) => {
   try {
-    const response = await axios.patch(`${url}/${id}/likePost`);
+    const response = await API.patch(`/posts/${id}/likePost`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -116,6 +115,6 @@ const status = createSlice({
   },
 });
 
-export const { postIt ,updateIt} = status.actions;
+export const { postIt, updateIt } = status.actions;
 
 export default status.reducer;

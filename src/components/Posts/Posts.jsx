@@ -8,10 +8,13 @@ const Posts = () => {
   const classes = useStyles();
   const {isLoading,posts} = useSelector((state)=>state.post)
   // console.log(posts,'its me')
+
+  const newPost= [...posts].reverse()
+  
   return (
     isLoading?<CircularProgress/>:(
     <Grid className={classes.mainContainer} container alignItems='stretch' spacing={3}>
-      {posts?.map((post)=>(
+      {newPost?.map((post)=>(
         <Grid key={post._id} item xs={10} sm={16}>
           <Post post={post}/>
         </Grid>

@@ -13,7 +13,6 @@ import { useEffect } from "react";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setpostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: [],
@@ -21,6 +20,7 @@ const Form = ({ currentId, setCurrentId }) => {
   });
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem('profile'))
   const post = useSelector((state) =>
     currentId ? state.post.posts.find((p) => p._id === currentId) : null
   );
@@ -30,42 +30,41 @@ const Form = ({ currentId, setCurrentId }) => {
   const { postBtn, updateBtn } = useSelector((state) => state.post);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (currentId) dispatch(updatePost({ currentId, postData }));
-    else dispatch(createPost(postData));
+    const toupdateData={...postData,name:user?.result?.name}
+    if (currentId) dispatch(updatePost({ currentId, toupdateData }));
+    else dispatch(createPost({...postData,name:user?.result?.name}));
     clear();
     if (postBtn) dispatch(postIt());
     updateBtn && dispatch(updateIt());
   };
-  console.log(postBtn);
+  // console.log(postBtn);
   const clear = () => {
-    setCurrentId(null);
+    // setCurrentId(null);
     setpostData({
-      creator: "",
       title: "",
       message: "",
       tags: "",
       selectedFile: "",
     });
   };
+
+  if(!user?.result?.name){
+    return(
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">Please sign in to create your own posts</Typography>
+      </Paper>
+    )
+  }
   return (
     <Paper className={classes.paper}>
       <form
         autoComplete="off"
         noValidate
-        className={classes.form}
+        className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6"></Typography>
-        <TextField
-          name="creator"
-          varient="outlined"
-          label="creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(e) =>
-            setpostData({ ...postData, creator: e.target.value })
-          }
-        />
+        <Typography variant="h6">{currentId?`editing "${post.title}"`:'creating a post'}</Typography>
+        
         <TextField
           name="title"
           varient="outlined"
@@ -79,6 +78,9 @@ const Form = ({ currentId, setCurrentId }) => {
           varient="outlined"
           label="message"
           fullWidth
+          multiline
+          minRows={4}
+          maxRows={6}
           value={postData.message}
           onChange={(e) =>
             setpostData({ ...postData, message: e.target.value })
@@ -87,7 +89,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField
           name="tags"
           varient="outlined"
-          label="tags"
+          label="tags (comma seperated)"
           fullWidth
           value={postData.tags}
           onChange={(e) =>
