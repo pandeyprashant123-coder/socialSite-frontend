@@ -16,15 +16,17 @@ import useStyles from "./style";
 import { useDispatch, useSelector } from "react-redux";
 import { likePost, deletePost ,updateIt} from "../../../features/socialSlice";
 import Form from "../../form/Form";
-const Post = ({ post}) => {
+const Post = ({ post,id}) => {
   const dispatch = useDispatch();
   const [currentId,setCurrentId] = useState(null);
+  const [element, setElement] = useState(null)
   // console.log(post)
   const {updateBtn} = useSelector(state=>state.post)
   const classes = useStyles();
-  const update=()=>{
+  const update=(id)=>{
     setCurrentId(post._id)
     dispatch(updateIt())
+    setElement(id)
   }
   const user = JSON.parse(localStorage.getItem('profile'))
   const Likes = () => {
@@ -41,7 +43,7 @@ const Post = ({ post}) => {
   };
   return (
     <Card className={classes.card}>
-      {updateBtn&&<Form currentId={currentId} setCurrentId={setCurrentId}/>}
+      {updateBtn&&element&&<Form currentId={currentId} setCurrentId={setCurrentId}/>}
       <CardMedia
         className={classes.media}
         image={post.selectedFile}
@@ -56,7 +58,7 @@ const Post = ({ post}) => {
           <Button
             style={{ color: "white" }}
             size="small"
-            onClick={update}
+            onClick={()=>update(id)}
           >
             <MoreHorizIcon fontSize="default" />
           </Button>
