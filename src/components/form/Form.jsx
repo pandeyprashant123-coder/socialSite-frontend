@@ -56,11 +56,11 @@ const Form = ({ currentId, setCurrentId }) => {
     )
   }
   return (
-    <Paper className={classes.paper}>
+    <Paper className={`formCard ${classes.paper}`}>
       <form
         autoComplete="off"
         noValidate
-        className={`${classes.root} ${classes.form}`}
+        className={`form ${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">{currentId?`editing "${post.title}"`:'creating a post'}</Typography>

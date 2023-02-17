@@ -32,11 +32,11 @@ const Navbar = () => {
   },[location])
 
   return (
-    <AppBar className={classes.appBar} position="static" color="inherit">
+    <AppBar className={`navbar ${classes.appBar}`} position="static" color="inherit">
       <Typography
         component={Link}
         to="/"
-        className={classes.heading}
+        className={`head ${classes.heading}`}
         variant="h2"
         align="center"
       >
@@ -50,9 +50,9 @@ const Navbar = () => {
       >
         Post
       </Button>
-      <Toolbar className={classes.toolbar}>
+      <Toolbar className={`toolbarO ${classes.toolbar}`}>
         {user ? (
-          <div className={classes.profile}>
+          <div className={`toolbar ${classes.profile}`}>
             <Avatar
               className={classes.purple}
               alt={user.result.name}

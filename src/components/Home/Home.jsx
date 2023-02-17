@@ -16,7 +16,7 @@ function Home() {
   },[dispatch])
   return (
     <>
-        {postBtn && <Form/>}
+        {postBtn && (<Form/>)}
         <Grow in>
           <Container>
             <Grid container className={classes.mainContainer} justifyContent="center" alignItems="center" spacing={3}>
